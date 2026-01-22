@@ -2,6 +2,10 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+
+<!-- PENTING UNTUK MOBILE -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Mini YouTube - Playlist</title>
 
 <style>
@@ -17,6 +21,7 @@ header {
   background: #181818;
   font-size: 20px;
   font-weight: bold;
+  text-align: center;
 }
 
 .container {
@@ -24,12 +29,14 @@ header {
   height: calc(100vh - 60px);
 }
 
+/* SIDEBAR */
 .sidebar {
   width: 320px;
   border-right: 1px solid #333;
   overflow-y: auto;
 }
 
+/* PLAYLIST */
 .playlist {
   padding: 12px;
   font-weight: bold;
@@ -61,15 +68,48 @@ header {
   font-weight: bold;
 }
 
+/* PLAYER */
 .player {
   flex: 1;
-  padding: 20px;
+  padding: 15px;
 }
 
 iframe {
   width: 100%;
   height: 450px;
   border-radius: 10px;
+}
+
+/* ========================= */
+/* 📱 RESPONSIVE MOBILE */
+/* ========================= */
+@media (max-width: 768px) {
+
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-top: 1px solid #333;
+    order: 2;
+  }
+
+  .player {
+    order: 1;
+    padding: 10px;
+  }
+
+  iframe {
+    height: 220px;
+    border-radius: 0;
+  }
+
+  header {
+    font-size: 18px;
+  }
 }
 </style>
 </head>
@@ -80,10 +120,21 @@ iframe {
 
 <div class="container">
 
+  <!-- PLAYER -->
+  <div class="player">
+    <h2 id="title">Pilih video</h2>
+    <iframe
+      id="player"
+      src=""
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+
   <!-- SIDEBAR -->
   <div class="sidebar">
 
-    <!-- PLAYLIST -->
     <div class="playlist" onclick="togglePlaylist('playlist1')">
       🎬 JIGOKUROKU SEASON 2
     </div>
@@ -110,18 +161,6 @@ iframe {
 
   </div>
 
-  <!-- PLAYER -->
-  <div class="player">
-    <h2 id="title">Pilih video</h2>
-    <iframe
-      id="player"
-      src=""
-      frameborder="0"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-  </div>
-
 </div>
 
 <script>
@@ -145,9 +184,8 @@ function playVideo(playlistId, index) {
 
   document.getElementById("title").innerText = video.title;
 
-  document.querySelectorAll(".video-item").forEach(item =>
-    item.classList.remove("active")
-  );
+  document.querySelectorAll(".video-item")
+    .forEach(item => item.classList.remove("active"));
 
   document
     .getElementById(playlistId)
@@ -164,5 +202,3 @@ function togglePlaylist(id) {
 
 </body>
 </html>
-
-
