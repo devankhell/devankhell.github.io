@@ -76,36 +76,35 @@ iframe {
 
 <body>
 
-<header>▶ Mini YouTube (Playlist)</header>
+<header>▶ Mini YouTube (Unlisted)</header>
 
 <div class="container">
 
   <!-- SIDEBAR -->
   <div class="sidebar">
 
-    <!-- PLAYLIST 1 -->
+    <!-- PLAYLIST -->
     <div class="playlist" onclick="togglePlaylist('playlist1')">
-      🎬 Anime
+      🎬 Film Action
     </div>
     <div class="video-list" id="playlist1">
-      <div class="video-item" onclick="playFromPlaylist('playlist1', 0)">
-        1. Jigokuroku Episode 1
+      <div class="video-item" onclick="playVideo('playlist1', 0)">
+        1. Part 1
       </div>
-      <div class="video-item" onclick="playFromPlaylist('playlist1', 1)">
-        2. Action Movie Part 2
+      <div class="video-item" onclick="playVideo('playlist1', 1)">
+        2. Part 2
       </div>
     </div>
 
-    <!-- PLAYLIST 2 -->
     <div class="playlist" onclick="togglePlaylist('playlist2')">
       🎭 Drama Series
     </div>
     <div class="video-list" id="playlist2">
-      <div class="video-item" onclick="playFromPlaylist('playlist2', 0)">
-        1. Drama Episode 1
+      <div class="video-item" onclick="playVideo('playlist2', 0)">
+        1. Episode 1
       </div>
-      <div class="video-item" onclick="playFromPlaylist('playlist2', 1)">
-        2. Drama Episode 2
+      <div class="video-item" onclick="playVideo('playlist2', 1)">
+        2. Episode 2
       </div>
     </div>
 
@@ -114,7 +113,13 @@ iframe {
   <!-- PLAYER -->
   <div class="player">
     <h2 id="title">Pilih video</h2>
-    <iframe id="player" allow="autoplay" allowfullscreen></iframe>
+    <iframe
+      id="player"
+      src=""
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
   </div>
 
 </div>
@@ -122,46 +127,38 @@ iframe {
 <script>
 const playlists = {
   playlist1: [
-    { id: "18Cqk5fw-elbBOwzaA2TFw3Il3WUMdmh9", title: "Jigokuroku Episode 1" },
-    { id: "FILE_ID_2", title: "Action Movie Part 2" }
+    { id: "XaKEtR5XE", title: "Jigokuroku EPS 1" },
+    { id: "VIDEO_ID_2", title: "Film Action - Part 2" }
   ],
   playlist2: [
-    { id: "FILE_ID_3", title: "Drama Episode 1" },
-    { id: "FILE_ID_4", title: "Drama Episode 2" }
+    { id: "VIDEO_ID_3", title: "Drama Episode 1" },
+    { id: "VIDEO_ID_4", title: "Drama Episode 2" }
   ]
 };
 
-let currentPlaylist = null;
-let currentIndex = 0;
-
-function playFromPlaylist(playlistId, index) {
-  currentPlaylist = playlistId;
-  currentIndex = index;
-
+function playVideo(playlistId, index) {
   const video = playlists[playlistId][index];
 
   document.getElementById("player").src =
-    "https://drive.google.com/file/d/" + video.id + "/preview";
+    "https://www.youtube.com/embed/" + video.id +
+    "?rel=0&modestbranding=1";
 
   document.getElementById("title").innerText = video.title;
 
-  highlightActive(playlistId, index);
+  document.querySelectorAll(".video-item").forEach(item =>
+    item.classList.remove("active")
+  );
+
+  document
+    .getElementById(playlistId)
+    .children[index]
+    .classList.add("active");
 }
 
 function togglePlaylist(id) {
   const list = document.getElementById(id);
-  list.style.display = list.style.display === "block" ? "none" : "block";
-}
-
-function highlightActive(playlistId, index) {
-  document.querySelectorAll(".video-item").forEach(item => {
-    item.classList.remove("active");
-  });
-
-  const list = document.getElementById(playlistId);
-  if (list) {
-    list.children[index].classList.add("active");
-  }
+  list.style.display =
+    list.style.display === "block" ? "none" : "block";
 }
 </script>
 
